@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Klaudia ❤️</title>
 <style>
-body { margin:0; height:100vh; overflow-x:hidden; font-family:Arial, sans-serif; text-align:center; background:linear-gradient(180deg,#ffe6eb,#ffd1dc);}
+body { margin:0; min-height:100vh; overflow-x:hidden; font-family:Arial,sans-serif; text-align:center; background:linear-gradient(180deg,#ffe6eb,#ffd1dc);}
 .full-heart {position:absolute; inset:0; background:url("https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg") no-repeat center; background-size:120vmin; opacity:0.25; animation:pulse 3s infinite ease-in-out; z-index:0;}
 @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
 .container{position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:10px;}
@@ -32,6 +32,55 @@ button{padding:12px 24px; font-size:4vw; border:none; border-radius:12px; cursor
 .quiz-container p{font-size:4vw; margin:5px 0;}
 .quiz-container button{margin:3px; font-size:4vw;}
 input[type="text"]{margin:3px; padding:4px; font-size:4vw; border-radius:6px; border:1px solid #ccc; width:80%;}
+
+/* koperta i list */
+.envelope-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  text-align: center;
+  cursor: pointer;
+}
+.envelope-btn img { width: 64px; transition: transform 0.3s ease;}
+.envelope-btn:hover img { transform: scale(1.15);}
+.envelope-btn span { display: block; font-size: 12px; color: #d6336c; margin-top: 4px; max-width: 140px;}
+.letter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+.letter-box {
+  background: #fff0f5;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: left;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4a2c2a;
+}
+.letter-box h2 { text-align: center; color: #d6336c;}
+.close-letter {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #ff4d6d;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -43,6 +92,26 @@ input[type="text"]{margin:3px; padding:4px; font-size:4vw; border-radius:6px; bo
 <p>Czy zostaniesz moją walentynką?</p>
 <button class="tak" id="tak1">Tak</button>
 <button class="nie" id="nie1">Nie</button>
+</div>
+
+<!-- koperta i liścik -->
+<div class="envelope-btn" onclick="openLetter()">
+  <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Koperta">
+  <span>tutaj liścik ode mnie do Ciebie<br>kliknij żeby przeczytać</span>
+</div>
+<div class="letter-overlay" id="letter">
+  <div class="letter-box">
+    <h2>💌</h2>
+    <p>A tu tak na osłodę życia 🙂</p>
+    <p>Jesteś naprawdę niezwykle piękną i śliczną kobietą. Szczerze mówiąc, zupełnie się nie spodziewałem, że spotkam kogoś z tak podobnym poczuciem humoru, z tymi samymi suchymi żartami, kto będzie mnie aż tak zaskakiwał.</p>
+    <p>Mamy tyle wspólnych wizji i potrafimy spędzać razem czas w sposób, który sprawia, że wszystko wokół przestaje istnieć – nieważne, gdzie jesteśmy, liczy się tylko to „tu i teraz”, które dzielimy razem.</p>
+    <p>Twoje oczy… mogę w nich dosłownie zginąć. Są jak ocean, w którym chciałbym się zatracić, i każda chwila spędzona patrząc w nie sprawia, że świat staje się cichszy, spokojniejszy, a wszystko inne przestaje mieć znaczenie.</p>
+    <p>Czasem myślę, że moglibyśmy stać gdzieś pośrodku świata, a ja i tak nie chciałbym patrzeć na nic innego, tylko na Ciebie.</p>
+    <p>Chciałbym czasem zatrzymać momenty, kiedy jesteśmy razem, żeby móc nacieszyć się Tobą trochę dłużej, poczuć każdą sekundę przy Tobie.</p>
+    <p>Nie zmieniaj się, proszę. Bądź dokładnie taka, jaka jesteś, bo to właśnie Twoja naturalność, uśmiech i sposób bycia sprawiają, że przy Tobie wszystko wydaje się prostsze i piękniejsze.</p>
+    <p>Cieszę się, że Cię poznałem i że mogę doświadczać tych wszystkich drobnych, wyjątkowych chwil, które czynią życie pełnym.</p>
+    <button class="close-letter" onclick="closeLetter()">Zamknij 💗</button>
+  </div>
 </div>
 
 <script>
@@ -57,28 +126,28 @@ function gwiazda(){const s=document.createElement("div");s.className="star";s.in
 function countdown(){const target=new Date("2026-02-14T18:00:00").getTime(); setInterval(()=>{const now=new Date().getTime(); const d=target-now; if(d<=0){document.getElementById("countdown").innerHTML="To już dziś ❤️"; return;} const dni=Math.floor(d/86400000); const godz=Math.floor((d/3600000)%24); const min=Math.floor((d/60000)%60); document.getElementById("countdown").innerHTML=`Do Walentynek: ${dni} dni ${godz} godz. ${min} min`;},1000);}
 function konfetti(){for(let i=0;i<150;i++){const piece=document.createElement("div");piece.className="confetti-piece";piece.style.left=Math.random()*window.innerWidth+"px";piece.style.top="-10px";piece.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;piece.style.width=piece.style.height=(5+Math.random()*5)+"px";document.body.appendChild(piece);piece.animate([{transform:`translateY(${window.innerHeight}px) rotate(${Math.random()*360}deg)`}],{duration:3000+Math.random()*2000,easing:"linear"});setTimeout(()=>piece.remove(),5000);}}
 
-tak1.addEventListener("click",()=>{
-document.body.innerHTML=`
-<div class="full-heart"></div>
-<div class="container blur">
-  <div class="photos">
-    <img src="bartlomiej.jpg" class="photo">
-    <img src="klaudia.jpg" class="photo">
-  </div>
-  <p>Czy w sobotę, w Walentynki,<br>zgodzisz się ładnie ubrać<br>i spędzić ze mną wspólnie wieczór?</p>
-  <p id="countdown"></p>
-  <button class="tak" id="tak2">Tak</button>
-  <button class="nie" id="nie2">Nie</button>
+tak1.addEventListener("click",()=>{ 
+const start=document.getElementById("start");
+start.innerHTML=`
+<div class="photos">
+<img src="bartlomiej.jpg" class="photo">
+<img src="klaudia.jpg" class="photo">
 </div>
+<p>Czy w sobotę, w Walentynki,<br>zgodzisz się ładnie ubrać<br>i spędzić ze mną wspólnie wieczór?</p>
+<p id="countdown"></p>
+<button class="tak" id="tak2">Tak</button>
+<button class="nie" id="nie2">Nie</button>
 `;
 setInterval(serduszko,250);
 countdown();
-document.getElementById("nie2").addEventListener("mouseover",function(){losuj(this);});
 
-document.getElementById("tak2").addEventListener("click",()=>{
-document.body.innerHTML=`
-<div class="full-heart"></div>
-<div class="container blur">
+const nie2=document.getElementById("nie2");
+nie2.addEventListener("mouseover",()=>losuj(nie2));
+
+const tak2=document.getElementById("tak2");
+tak2.addEventListener("click",()=>{
+
+start.innerHTML=`
 <h1>Wooow, nie mogę się doczekać &lt;3</h1>
 <p>To będzie piękny wieczór ✨</p>
 <img src="https://i.pinimg.com/originals/e2/c8/2b/e2c82bd0e7252693106717a4554cb9b6.gif" class="mis-gif" alt="Tulący się miś">
@@ -87,16 +156,13 @@ document.body.innerHTML=`
   <div id="slider-text">Jak podoba Ci się ta walentynka?</div>
 </div>
 <div class="quiz-container" id="quiz"></div>
-</div>
 `;
 
 setInterval(gwiazda,200);
-
-// Suwak z konfetti
 const slider=document.getElementById("rating-slider");
 slider.addEventListener("input",()=>{if(parseInt(slider.value)===100){konfetti();}});
 
-// Quiz z 10 pytaniami
+// quiz
 const quizData=[
   {q:"Jakie kwiaty lubisz najbardziej?",a:["Róże","Tulipany","Goździki","Inne"]},
   {q:"Jakie jedzenie lubisz najbardziej?",a:["Czekolada","Pizza","Sushi","Inne"]},
@@ -109,10 +175,8 @@ const quizData=[
   {q:"Jaki styl ubioru preferujesz?",a:["Elegancki","Casual","Sportowy","Inne"]},
   {q:"Jakie miejsce chciałabyś odwiedzić w Walentynki?",a:["Park","Kawiarnia","Morze","Inne"]}
 ];
-let currentQ=0;
-let answers=[];
+let currentQ=0; let answers=[];
 const quizContainer=document.getElementById("quiz");
-
 function pokazPytanie(){
   if(currentQ>=quizData.length){
     let mailBody=encodeURIComponent(answers.map((a,i)=>`${quizData[i].q} ${a}`).join("\n"));
@@ -155,6 +219,10 @@ pokazPytanie();
 
 });
 });
+
+// funkcje koperty
+function openLetter(){document.getElementById("letter").style.display="flex";}
+function closeLetter(){document.getElementById("letter").style.display="none";}
 </script>
 </body>
 </html>
